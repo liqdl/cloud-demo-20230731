@@ -1,0 +1,18 @@
+system:
+  ip: 9.112.83.175
+server:
+  port: 10086 # 服务端口
+spring:
+  application:
+    name: eurekaserver # eureka的服务名称
+eureka:
+  instance:
+    hostname: ${system.ip}
+    prefer-ip-address: true
+    instance-id: ${system.ip}:10086
+  client:
+    service-url: # eureka的地址信息 9.112.83.175
+      #defaultZone: http://127.0.0.1:10086/eureka
+      defaultZone: http://${system.ip}:10086/eureka
+    #register-with-eureka: false
+    fetch-registry: false

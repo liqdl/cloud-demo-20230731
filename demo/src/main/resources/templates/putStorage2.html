@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content="text/html; charset=utf-8" />
+    <title>图书管理2</title>
+    <style type="text/css">
+      table thead tr th {
+        text-align: center;
+      }
+      table tbody tr {
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+    <form>
+      <div>
+        <h1>图书管理2</h1>
+        <table>
+          <thead>
+            <tr>
+                <th>编号</th>
+                <th>名称</th>
+                <th>分类</th>
+                <th>数量</th>
+                <th>备注</th>
+                <th>操作</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><input type="text" v-model="number"/></td>
+              <td><input type="text" v-model="name"/></td>
+              <td>
+                <select v-model="class1">
+                  <option></option>
+                  <option>小说</option>
+                  <option>法律</option>
+                  <option>教育</option>
+                </select>
+              </td>
+              <td><input type="text" v-model="quantity"/></td>
+              <td><input type="text" v-model="note"/></td>
+              <td><button @click="submitForm($event)">提交</button> <td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </form> 
+    </div>
+</body>
+  
+
+    <script type="text/javascript" src="https://unpkg.com/vue@2.3.4/dist/vue.js"></script>
+    <script src="https://cdn.staticfile.org/vue-resource/1.5.1/vue-resource.min.js"></script>
+    <script type="text/javascript">
+      var vue = new Vue({
+        
+        el:"#app",
+        data:{
+          number:'',  //变量必须在此处初始化才能正常使用
+          name:'',
+          class1:'',
+          quantity:'',
+          note:''
+        },
+        methods:{
+          
+          submitForm: function(event) {
+            
+            event.preventDefault();
+            var formData = new FormData();
+            formData.append('number', this.number);
+            formData.append('name', this.name);
+            formData.append('class1', this.class1);
+            formData.append('quantity', this.quantity);
+            formData.append('note', this.note);
+            
+            this.$http.post('/putStorage2', formData).then(res=>{
+              alert("入库成功");
+            }, err=>{
+              alert("入库失败");
+            });
+          }
+        }
+      });
+      
+    </script>
+</html>
+

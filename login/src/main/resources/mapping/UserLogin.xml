@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.login.mapper.UserMapper">
+    <!-- <insert id="insertBook">
+        insert into Book(name,number,class1,quantity,note)
+        values(#{name},#{number},#{class1},#{quantity},#{note})
+    </insert> -->
+    <select id="login" resultType="com.example.login.beans.TbUser">
+        select * from tb_user where username = #{username} and password = #{password}
+    </select>
+</mapper>

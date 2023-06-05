@@ -1,0 +1,59 @@
+system:
+  ip: 9.112.83.175
+server:
+  port: 10010
+spring:
+  application:
+    name: gateway
+  cloud:
+    #nacos:
+    #nacos server
+    #server-addr: http://127.0.0.1:8848
+    #server-addr: http://9.112.83.175:8848
+    #server-addr: http://192.168.11.5:8848
+    #discovery:
+    #cluster-name: SH # 配置集群名称，也就是机房位置，例如：SH，上海
+    gateway:
+      # 全局配置
+      globalcors:
+        cors-configurations:
+          "[/**]": # 匹配所有请求
+            allowedOrigins: "*" #跨域处理 *表示通配 允许所有的域 实际可以填写ip
+            allowedMethods: # 支持的方法
+              - GET
+              - POST
+              - PUT
+              - DELETE
+            allowedHeaders: Content-Type, origin, token
+
+      routes: #网关路由配置
+        # - id: user-service #路由id 自定义，唯一即可
+        #   uri: lb://userservice #路由的目标地址
+        #   predicates: #路由断言，也就是判断请求是否符合路由规则的条件
+        #     - Path=/user/**  #按照路径匹配，只要以/user开头即可
+        #   # filters:
+        #   #   - AddRequestHeader=Truth,Spring Cloud is so easy!
+        #   #   - XXX=Truth,Spring Cloud is so easy!
+        # - id: order-service
+        #   uri: lb://orderservice
+        #   predicates:
+        #     - Path=/order/**
+        - id: login-service # 路由id 唯一标识
+          uri: lb://login # 路由地址，动态路由  lb是一个网关的协议
+          predicates: # 断言
+            - Path=/login/**
+        - id: demo
+          uri: lb://demo
+          predicates:
+            - Path=/book/**
+      # default-filters:
+      #   - AddRequestHeader=Truth,Spring Cloud is not difficult!
+eureka:
+  instance:
+    hostname: ${system.ip}
+    prefer-ip-address: true
+    instance-id: ${system.ip}:10086
+  client:
+    service-url: # eureka的地址信息
+      #defaultZone: http://127.0.0.1:10086/eureka
+      defaultZone: http://${system.ip}:10086/eureka

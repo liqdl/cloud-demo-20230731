@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ma.demo.mapper.BookMapper">
+    <insert id="insertBook">
+        insert into Book(id,name,number,class1,quantity,note)
+        values(#{id},#{name},#{number},#{class1},#{quantity},#{note})
+    </insert>
+    <insert id="updateBook">
+        update Book set name = #{name}, class1 = #{class1}, quantity =#{quantity},
+        note = #{note},number = #{number} where id = #{id}
+    </insert>
+
+    <!--动态多条件查询-->
+    <select id="selectByCondition"  resultMap="bookResultMap">
+        select * from Book
+        <where>
+            <if test="name!= null and name!='' ">
+                and name like #{name}
+            </if>
+            <if test="number!= null and number!=''">
+                and number like #{number}
+            </if>
+            <if test="class1!= null and class1!='' ">
+                and class1 like #{class1}
+            </if>
+            <if test="quantity!= null and quantity!=''">
+                and quantity like #{quantity}
+            </if>
+            <if test="note!= null and note!=''">
+                and note like #{note}
+            </if>
+        </where>
+    </select>
+
+    <resultMap type="Book" id="bookResultMap">
+        <result property="id" column="id" />
+        <result property="name" column="name" />
+        <result property="number" column="number" />
+        <result property="class1" column="class1" />
+        <result property="quantity" column="quantity" />
+        <result property="note" column="note" />
+    </resultMap>
+
+</mapper>

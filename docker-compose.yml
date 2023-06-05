@@ -1,0 +1,48 @@
+version: "3.9"
+
+services:
+  eureka-server:
+    image: liqdl/eureka-server:v1
+    container_name: eureka-server
+    ports:
+      - 10086:10086
+    volumes:
+      - ./:/tmp
+    environment:
+      - TZ=Asia/Shanghai
+  gateway:
+    image: liqdl/gateway_eureka:v1
+    container_name: gateway
+    ports:
+      - 10010:10010
+    volumes:
+      - ./:/tmp
+    environment:
+      - TZ=Asia/Shanghai
+  login:
+    image: liqdl/login_eureka:v1
+    container_name: login
+    ports:
+      - 1000:1000
+    volumes:
+      - ./:/tmp
+    environment:
+      - TZ=Asia/Shanghai
+  demo:
+    image: liqdl/demo_eureka:v1
+    container_name: demo
+    ports:
+      - 8080:8080
+    volumes:
+      - ./:/tmp
+    environment:
+      - TZ=Asia/Shanghai
+  my-app:
+    image: liqdl/my-app:v1
+    container_name: my-app
+    ports:
+      - 3000:3000
+    volumes:
+      - ./:/tmp
+    environment:
+      - TZ=Asia/Shanghai

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta content="text/html; charset=utf-8" />
+  <title>图书管理1</title>
+  <style type="text/css">
+    table thead tr th {
+      text-align: center;
+    }
+    table tbody tr {
+      text-align: center;
+    }
+  </style>
+</head>
+      <body>
+         <div id="app">
+          <h1>图书管理1</h1>
+          <table>
+            <!-- 表头 --> 
+            <tr class="top">
+              <th width="170px"><span class="title">编号</span></th>
+              <th width="170px"><span class="title">名称</span></th>
+              <th width="50px"><span class="title">分类</span></th>
+              <th width="170px"><span class="title">数量</span></th>
+              <th width="170px"><span class="title">备注</span></th>
+              <th width="50px"><span class="title">操作1</span></th>
+              <th width="50px"><span class="title">操作2</span></th>
+            </tr>  
+          </table>
+          <ul style="list-style-type:none;padding:0px">
+               <li v-for="(item, index) in books">
+                 <form method="post" action="/putStorage1">
+                 <input type="text" name="number" v-bind:value="item.number"/>
+                 <input type="text" name="name" v-bind:value="item.name"/>
+                 <select name="class1" v-model="item.class1">
+                     <option value=""></option>
+                     <option value="小说">小说</option>
+                     <option value="法律">法律</option>
+                     <option value="教育">教育</option>
+                   </select>
+                 <input type="text" name="quantity" v-bind:value="item.quantity"/>
+                 <input type="text" name="note" v-bind:value="item.note"/>
+                 <button type="submit">提交</button>
+                 <button type="button" @click="deleteItem(index)">删除</button>
+                 </form>        
+               </li>
+            </ul>
+        </div>
+      </body>
+      <script type="text/javascript" src="https://cdn.jsdelivr.net/vue/2.1.3/vue.js"></script>
+      <script type="text/javascript">
+          var myVue = new Vue({
+            el:"#app",               
+            data:{
+              // 数据列表
+              books:[{number:"1",name:"图书1",class1:"小说",quantity:"10",note:"HTML表单提交1"},
+              {number:"2",name:"图书2",class1:"法律",quantity:"20",note:"HTML表单提交2"},
+              {number:"3",name:"图书3",class1:"教育",quantity:"30",note:"HTML表单提交3"}
+              ]
+            },
+            methods:{
+              deleteItem:function(index) {
+                this.books.splice(index,1);
+              }
+            }
+          })
+      </script>
+</html>
