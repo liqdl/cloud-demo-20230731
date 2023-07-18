@@ -15,7 +15,7 @@ class ListItems1 extends React.Component {
       //当前页号
       currentPage: 1,
       //每页的条数
-      pagesSize: 2,
+      pagesSize: 5,
       //总数据条数
       totalPages: 0,
 
@@ -108,11 +108,19 @@ class ListItems1 extends React.Component {
       .then((response) => {
         console.log(number);
         //alert("id:" + id + "number:" + number);
-        const { books } = this.state;
-        const listItem = books.filter((item) => item.key !== number);
-        this.setState({
-          books: listItem,
-        });
+        // const { books } = this.state;
+        // const listItem = books.filter((item) => item.key !== number);
+        // this.setState({
+        //   books: listItem,
+        //   //booksBackup: listItem,
+        // });
+
+        window.location.href = "http://localhost:3000";
+        this.close();
+
+        //按照第一页进行设定
+        this.pageUpdate(this.state.totalPages);
+
       })
       .catch((error) => {
         console.log(error);
@@ -326,7 +334,7 @@ class ListItems1 extends React.Component {
         this.state.booksBackup = listItems1;
         this.state.booksBackup = listItems1;
         this.state.totalPages =
-          (listItems1.length + this.state.pagesSize - 1) / this.state.pagesSize;
+        Math.floor((listItems1.length + this.state.pagesSize - 1) / this.state.pagesSize);
 
         // alert("books:" + this.State.books.length);
         //alert("--booksBackup1:" + this.state.booksBackup);
@@ -458,8 +466,8 @@ class ListItems1 extends React.Component {
           booksBackup: listItems1,
           //总数据条数
           totalPages:
-            (listItems1.length + this.state.pagesSize - 1) /
-            this.state.pagesSize,
+            Math.floor((listItems1.length + this.state.pagesSize - 1) /
+            this.state.pagesSize),
         });
 
         //按照第一页进行设定
@@ -643,7 +651,7 @@ class ListItems1 extends React.Component {
               </ul>
             </nav>
           </div>
-          <div class="col-md-3">※按照2件进行分页</div>
+          <div class="col-md-3">※按照5件进行分页</div>
         </div>
       </div>
     );

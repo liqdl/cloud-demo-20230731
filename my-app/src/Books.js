@@ -1,11 +1,10 @@
 import React from "react";
-import qs from 'qs';
 import ListItems1 from "./ListItems1";
 import "./css/bootstrap/css/bootstrap.css";
 import tushu from "./img/tushu.jpg";
 import renkanshu from "./img/2renkanshu.jpg";
 import ibm1 from "./img/ibm1.jpg";
-import jimu from "./img/jimu.jpg";
+import logout from "./img/logout1.jpeg";
 
 class Books extends React.Component {
 
@@ -14,23 +13,34 @@ class Books extends React.Component {
     role: '',
   };
 
-  componentDidMount = () => {
-    //alert(window.location.search.replace('?', '').split('/')[1]);
-    if (window.location.search.replace('?', '').split('/')[0].toString() === "admin") {
-      this.setState({
-        username: window.location.search.replace('?', '').split('/')[2].toString(),
-        role: '管理员',
-      })
-    }
-    else{
-      this.setState({
-        username: window.location.search.replace('?', '').split('/')[2].toString(),
-        role: '一般用户',
-      })
-    }
+  logout = () => {
+    window.location.href = "http://localhost:1000"
   };
 
   render() {
+
+    if(window.location.search.replace('?', '') !=='') {
+      if (window.location.search.replace('?', '').split('/')[0].toString() === "admin") {
+        this.setState({
+          username: window.location.search.replace('?', '').split('/')[2].toString(),
+          role: '管理员',
+        })
+      }
+      else{
+        this.setState({
+          username: window.location.search.replace('?', '').split('/')[2].toString(),
+          role: '一般用户',
+        })
+      }
+      sessionStorage['username']=this.state.username;
+      sessionStorage['role']=this.state.role;
+    }
+    else{
+      this.setState({
+        username: sessionStorage['username'],
+        role: sessionStorage['role'],
+      })
+    }
 
     return (
       <div>
@@ -42,12 +52,12 @@ class Books extends React.Component {
             <br />
             <h1 className="title">图书库存列表</h1>
           </div>
-          <div class="col-md-1">
+          <div class="col-md-1 text-right">
             <br />
             <b>当前用户：{this.state.username+"("+this.state.role+")"}</b>
           </div>
           <div class="col-md-1">
-            <img alt="Brand" src={jimu} width="150" height="150"></img>
+            <img alt="Brand" src={logout} width="150" height="150" onClick={this.logout}></img>
           </div>
         </div>
         <ListItems1 />
