@@ -1,4 +1,5 @@
 import React from "react";
+import qs from 'qs';
 import ListItems1 from "./ListItems1";
 import "./css/bootstrap/css/bootstrap.css";
 import tushu from "./img/tushu.jpg";
@@ -7,16 +8,43 @@ import ibm1 from "./img/ibm1.jpg";
 import jimu from "./img/jimu.jpg";
 
 class Books extends React.Component {
+
+  state = {
+    username: '',
+    role: '',
+  };
+
+  componentDidMount = () => {
+    //alert(window.location.search.replace('?', '').split('/')[1]);
+    if (window.location.search.replace('?', '').split('/')[0].toString() === "admin") {
+      this.setState({
+        username: window.location.search.replace('?', '').split('/')[2].toString(),
+        role: '管理员',
+      })
+    }
+    else{
+      this.setState({
+        username: window.location.search.replace('?', '').split('/')[2].toString(),
+        role: '一般用户',
+      })
+    }
+  };
+
   render() {
+
     return (
       <div>
         <div class="row">
           <div class="col-md-1">
             <img alt="Brand" src={tushu} width="100" height="100"></img>
           </div>
-          <div class="col-md-10">
+          <div class="col-md-9">
             <br />
             <h1 className="title">图书库存列表</h1>
+          </div>
+          <div class="col-md-1">
+            <br />
+            <b>当前用户：{this.state.username+"("+this.state.role+")"}</b>
           </div>
           <div class="col-md-1">
             <img alt="Brand" src={jimu} width="150" height="150"></img>
@@ -28,10 +56,14 @@ class Books extends React.Component {
         <hr />
 
         <div class="position-relative">
-      <div class="shape shape-bottom shape-fluid-x text-dark">
-        <svg viewBox="0 0 2880 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 48h2880V0h-720C1442.5 52 720 0 720 0H0v48z" fill="currentColor"/></svg>
-      </div>
-    </div>
+          <div class="shape shape-bottom shape-fluid-x text-dark">
+            <svg viewBox="0 0 2880 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M 0 48 h 2980 V0h-720C1442.5 52 720 0 720 0H0v48z" fill="currentColor"/>
+            </svg>
+          </div>
+        </div>
+
+
         <footer class="bg-primary">
           <div class="container">
             <div class="row">
