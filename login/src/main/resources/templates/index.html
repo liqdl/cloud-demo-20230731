@@ -223,7 +223,7 @@
                         console.log("登录成功")
                         let role = res.data.role;
                         let token = res.data.token;
-                        window.location.href = "http://localhost:3000?" + role + "/" + token
+                        window.location.href = "http://localhost:3000?" + role + "/" + token + "/" + this.username
 
                     } else {
                         console.log("登录失败")
