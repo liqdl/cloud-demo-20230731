@@ -651,7 +651,7 @@ class ListItems1 extends React.Component {
               </ul>
             </nav>
           </div>
-          <div class="col-md-3">※按照5件进行分页</div>
+          <div class="col-md-3 text-bottom">※按照5件进行分页</div>
         </div>
       </div>
     );

@@ -1,6 +1,7 @@
 import React from "react";
 import ListItems1 from "./ListItems1";
 import "./css/bootstrap/css/bootstrap.css";
+import "./css/mycss.css";
 import tushu from "./img/tushu.jpg";
 import renkanshu from "./img/2renkanshu.jpg";
 import ibm1 from "./img/ibm1.jpg";
@@ -65,10 +66,10 @@ class Books extends React.Component {
         <br />
         <hr />
 
-        <div class="position-relative">
+        <div class="position-relative my">
           <div class="shape shape-bottom shape-fluid-x text-dark">
             <svg viewBox="0 0 2880 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M 0 48 h 2980 V0h-720C1442.5 52 720 0 720 0H0v48z" fill="currentColor"/>
+              <path class="my" d="M 0 48 h 2980 V0h-720C1442.5 52 720 0 720 0H0v48z" fill="currentColor"/>
             </svg>
           </div>
         </div>
