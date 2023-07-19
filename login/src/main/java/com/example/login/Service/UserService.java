@@ -28,7 +28,7 @@ public class UserService {
 
     }
 
-    public boolean save(TbUser user) {
+    public boolean add(TbUser user) {
 
         user.setId(getMaxID() + 1);
         System.out.println("---追加开始" + user);
@@ -39,5 +39,13 @@ public class UserService {
 
     public long getMaxID() {
         return userMap.getMaxID();
+    }
+
+    public boolean update(TbUser user) {
+
+        System.out.println("---更新开始" + user);
+        boolean flag = userMap.updateUser(user.getId(), user.getUsername(), user.getPassword(), user.getRole());
+        System.out.println("---更新结束" + user);
+        return flag;
     }
 }

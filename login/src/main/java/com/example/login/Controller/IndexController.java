@@ -60,12 +60,32 @@ public class IndexController {
         if (null != checkUser) {
             return "found";
         } else {
-            boolean regFlg = userser.save(user);
+            boolean regFlg = userser.add(user);
             if (regFlg) {
                 return "success";
             } else {
                 return "error";
             }
+        }
+    }
+
+    @PostMapping("/login/updateUser")
+    public String updateUser(TbUser user) {
+
+        System.out.println("---updateUser:" + user);
+
+        TbUser checkUser = userser.getUser(user);
+        if (null != checkUser) {
+            user.setId(checkUser.getId());
+            boolean regFlg = userser.update(user);
+            if (regFlg) {
+                return "success";
+            } else {
+                return "error";
+            }
+
+        } else {
+            return "notfound";
         }
     }
 

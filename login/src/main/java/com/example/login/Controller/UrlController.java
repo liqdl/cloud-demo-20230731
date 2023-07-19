@@ -24,4 +24,9 @@ public class UrlController {
         return "register";
     }
 
+    @RequestMapping("/login/updateUser")
+    public String updateUser() {
+        return "updateUser";
+    }
+
 }
