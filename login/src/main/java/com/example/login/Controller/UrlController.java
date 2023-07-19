@@ -19,4 +19,9 @@ public class UrlController {
         return "index";
     }
 
+    @RequestMapping("/login/register")
+    public String register() {
+        return "register";
+    }
+
 }

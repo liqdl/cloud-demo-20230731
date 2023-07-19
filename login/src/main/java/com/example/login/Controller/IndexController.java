@@ -11,6 +11,7 @@ import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.login.Service.UserService;
@@ -49,4 +50,23 @@ public class IndexController {
         map.put("role", user.getRole());
         return map;
     }
+
+    @PostMapping("/login/addUser")
+    public String addUser(TbUser user) {
+
+        System.out.println("---addUser:" + user);
+
+        TbUser checkUser = userser.getUser(user);
+        if (null != checkUser) {
+            return "found";
+        } else {
+            boolean regFlg = userser.save(user);
+            if (regFlg) {
+                return "success";
+            } else {
+                return "error";
+            }
+        }
+    }
+
 }
