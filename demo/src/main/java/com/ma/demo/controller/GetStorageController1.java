@@ -62,7 +62,7 @@ public class GetStorageController1 {
 
     @PostMapping("/addBook")
     public void addBook(Book book) {
-        System.out.println("---addBook" + book);
+        System.out.println("---addBook:" + book);
         bookSer.save(book);
         // return "success";
     }
