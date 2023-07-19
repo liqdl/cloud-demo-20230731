@@ -63,8 +63,9 @@
         .btn {
             text-align: center;
             padding: 10px;
-            width: 100%;
+            width: 20%;
             margin-top: 40px;
+            margin-left: 20px;
             background-image: linear-gradient(to right, #a6c1ee, #fbc2eb);
             color: #fff;
         }
@@ -152,9 +153,9 @@
         }
 
         .areg {
-            text-align: right;
-            font-size: 20px;
-            color: blue;
+            text-align: center;
+            font-size: 10px;
+            color: gray;
         }
 
     </style>
@@ -168,15 +169,17 @@
         <div class="login-wrapper">
             <meta http-equiv="Access-Control-Allow-Origin" content="*">
             </meta>
-            <div class="header">登  录</div>
+            <div class="header">注册用户</div>
             <div class="form-wrapper">
                 <input type="text" v-model="username" placeholder="username" class="input-item">
                 <input type="password" v-model="password" placeholder="password" class="input-item">
-
-                <button class="btn" @click="submitItem($event)">确认</button>
-                <br><br><br><br><br><br><br><br>
+                <select class="input-item" v-model="role">
+                    <option value="admin">管理员</option>
+                    <option value="">一般用户</option>
+                </select>
                 <div class="areg">
-                    <a class="areg" href="#" @click="addUser($event)">注册用户</a>
+                    <button class="btn" @click="submitItem($event)">注册</button>
+                    <button class="btn" @click="cancel($event)">返回</button>
                 </div>
 
                 <!-- <h2>{{listData[0].role}}</h2> -->
@@ -193,11 +196,11 @@
             <div class="model" v-show="showModel">
                 <div class="model-dialog">
                     <div class="model-header">
-                        <span>登录失败</span>
+                        <span>注册结果</span>
                         <a href="javascript:;" @click="know()" class="icon-close"></a>
                     </div>
                     <div class="model-body">
-                        <div class="body">登录用户名或者密码错误！</div>
+                        <div class="body">{{result}}</div>
                     </div>
                     <div class="model-footer">
                         <button class="model_btn" @click="know()">知道了</button>
@@ -217,6 +220,8 @@
             showModel: false,
             username: "",
             password: "",
+            role: "",
+            result:'',
             listData: []
         },
 
@@ -225,28 +230,49 @@
                 this.showModel = false;
             },
 
-            addUser: function (response) {
-                window.location.href="http://localhost:1000/login/register"
+            cancel: function (response) {
+                window.location.href="http://localhost:1000"
             },
 
             // async submitItem() {     
             submitItem: function (response) {
-                // const response = await axios
-                let form = new FormData();
-                form.append("username", this.username)
-                form.append("password", this.password)
-                axios.post('http://localhost:10010/login/postlogin', form).then(res => {
-                    if (res.data) {
-                        //利用localstorage存储到本地                        
-                        console.log("登录成功")
-                        let role = res.data.role;
-                        let token = res.data.token;
-                        window.location.href = "http://localhost:3000?" + role + "/" + token + "/" + this.username
 
-                    } else {
-                        console.log("登录失败")
-                        this.showModel = true;
+                if (this.username === "" && this.password === "") {
+                    this.result = "请输入用户名和密码！"
+                    this.showModel = true;
+                    return;
+                }
+                else if (this.username === "") {
+                    this.result = "请输入用户名！"
+                    this.showModel = true;
+                    return;
+                }
+                else if (this.password === "") {                   
+                    this.result = "请输入密码！"
+                    this.showModel = true;
+                    return;
+                } 
+
+                let form = new FormData();
+                form.append("username", this.username);
+                form.append("password", this.password);
+                form.append("role", this.role);
+
+                axios.post('http://localhost:1000/login/addUser', form).then(res => {
+
+                    if (res.data === "found") {
+                        this.result = "该用户已经存在，请重新修改用户名！"
                     }
+                    else if (res.data === "success") {                   
+                        console.log("登录成功")
+                        //window.location.href = "http://localhost:1000"
+                        this.result = "用户登录成功！"
+                    } 
+                    else {
+                        console.log("登录失败")
+                        this.result = "用户登录失败，请检查内容或网络！"
+                    }
+                    this.showModel = true;
 
                 }).catch(error => {
                     console.log(error);
