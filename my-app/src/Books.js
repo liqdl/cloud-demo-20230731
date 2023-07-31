@@ -49,19 +49,19 @@ class Books extends React.Component {
           <div class="col-md-1">
             <img alt="Brand" src={tushu} width="100" height="100"></img>
           </div>
-          <div class="col-md-9">
+          <div class="col-md-8">
             <br />
-            <h1 className="title">图书库存列表</h1>
+            <h1 className="title">　　　　　　　　图书库存列表</h1>
           </div>
-          <div class="col-md-1 text-right">
+          <div class="col-md-2 text-right">
             <br />
-            <b>当前用户：{this.state.username+"("+this.state.role+")"}</b>
+            <b>当前用户：<br />{this.state.username +"("+this.state.role+")"}</b>
           </div>
           <div class="col-md-1">
             <img alt="Brand" src={logout} width="150" height="150" onClick={this.logout}></img>
           </div>
         </div>
-        <ListItems1 />
+        <ListItems1 username={this.state.username} />
 
         <br />
         <hr />

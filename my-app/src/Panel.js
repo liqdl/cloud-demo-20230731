@@ -1,6 +1,8 @@
 import React from "react";
 import axios from "axios";
 import { render } from "react-dom";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 class Panel extends React.Component {
   constructor(props) {
@@ -77,25 +79,30 @@ class Panel extends React.Component {
       axios
         .post("http://localhost:10010/book/addBook", form)
         .then((response) => {
+          toast.success("图书记录追加成功!")
           //alert("add end");
-          window.location.href = "http://localhost:3000";
+
           //window.open("http://localhost:3000")
-          this.close();
+          //this.close();
+          window.setTimeout(()=>{window.location.href = "http://localhost:3000";},1000)
         })
         .catch((err) => {
+          toast.success("图书记录追加失败!")
           console.log(err);
         });
     } else {
       axios
         .post("http://localhost:10010/book/postStorage1", form)
         .then((response) => {
-          window.location.href = "http://localhost:3000";
-          //window.open("http://localhost:3000")
-          this.close();
+          toast.success("图书记录修改成功!");
 
-          //alert("update end");
+          //this.close();
+          window.setTimeout(()=>{window.location.href = "http://localhost:3000";},1000)
+          //window.open("http://localhost:3000")
+
         })
         .catch((err) => {
+          toast.success("图书记录修改失败!");
           console.log(err);
         });
     }
@@ -208,6 +215,18 @@ class Panel extends React.Component {
             </div>
           </div>
         </div>
+        <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="colored"
+        />
       </div>
     );
   }

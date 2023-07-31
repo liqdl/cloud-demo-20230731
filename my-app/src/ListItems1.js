@@ -1,7 +1,10 @@
 import React from "react";
 import axios from "axios";
 import Panel from "./Panel";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 //import { Modal, Button } from 'react-bootstrap';
+import "./css/mycss.css";
 import "./css/bootstrap/css/bootstrap.css";
 
 class ListItems1 extends React.Component {
@@ -25,8 +28,30 @@ class ListItems1 extends React.Component {
       class1: "",
       quantity: "",
       note: "",
+
+      //username:this.props.username,
     };
   }
+
+  onKeyDownchange = (e) => {
+
+    if(parseInt(this.state.pagesSize) <= 0){
+      this.state.pagesSize = 1
+    }
+
+    if(e.keyCode == 13) {
+      this.setState({
+        //总数据条数
+        totalPages:(this.state.booksBackup.length + parseInt(this.state.pagesSize) - 1) / parseInt(this.state.pagesSize)
+      });
+
+      this.pageUpdate(1);
+
+      toast.warn("每页显示数量变为"+parseInt(this.state.pagesSize)+"件!");
+    }
+
+    sessionStorage.setItem("pagesSize",this.props.username + "/" + parseInt(this.state.pagesSize));
+  };
 
   handleChange = (e) => {
     const value = e.target.value;
@@ -115,19 +140,21 @@ class ListItems1 extends React.Component {
         //   //booksBackup: listItem,
         // });
 
-        window.location.href = "http://localhost:3000";
-        this.close();
-
+        toast.success("图书记录删除成功!");
+        setTimeout(() =>{window.location.href = "http://localhost:3000";},1000);
+        //this.close();
+  
         //按照第一页进行设定
         this.pageUpdate(this.state.totalPages);
-
       })
       .catch((error) => {
         console.log(error);
+        toast.error("图书记录删除失败!");
       });
   };
 
   pageUpdate = (page) => {
+
     //alert("pageUpdate:" + page);
     //alert("id:" + id + "number:" + number);
     const { booksBackup } = this.state;
@@ -166,6 +193,11 @@ class ListItems1 extends React.Component {
   };
 
   pageNext = () => {
+
+    if(parseInt(this.state.pagesSize) >=this.state.booksBackup.length){
+      return
+    }
+
     let currentPageTemp = this.state.currentPage + 1;
 
     if (currentPageTemp > this.state.totalPages) {
@@ -257,6 +289,7 @@ class ListItems1 extends React.Component {
             <td width="170px">{data.note}</td>
             <td width="50px">
               <button
+                class="btn btn-info"
                 type="button"
                 onClick={this.viewItem.bind(
                   this,
@@ -274,6 +307,7 @@ class ListItems1 extends React.Component {
             {showElem ? (
               <td width="50px">
                 <button
+                  class="btn btn-success"
                   type="button"
                   onClick={this.updateItem.bind(
                     this,
@@ -292,6 +326,7 @@ class ListItems1 extends React.Component {
             {showElem ? (
               <td width="50px">
                 <button
+                  class="btn btn-danger"
                   type="button"
                   onClick={this.deleteItem.bind(this, data.id, data.number)}
                 >
@@ -302,6 +337,7 @@ class ListItems1 extends React.Component {
             {showElem ? (
               <td width="50px">
                 <button
+                  class="btn btn-primary"
                   type="button"
                   onClick={this.addItem.bind(
                     this,
@@ -399,6 +435,7 @@ class ListItems1 extends React.Component {
             <td width="170px">{data.note}</td>
             <td width="50px">
               <button
+                class="btn btn-info"
                 type="button"
                 onClick={this.viewItem.bind(
                   this,
@@ -416,6 +453,7 @@ class ListItems1 extends React.Component {
             {showElem ? (
               <td width="50px">
                 <button
+                  class="btn btn-success"
                   type="button"
                   onClick={this.updateItem.bind(
                     this,
@@ -434,6 +472,7 @@ class ListItems1 extends React.Component {
             {showElem ? (
               <td width="50px">
                 <button
+                  class="btn btn-danger"
                   type="button"
                   onClick={this.deleteItem.bind(this, data.id, data.number)}
                 >
@@ -444,6 +483,7 @@ class ListItems1 extends React.Component {
             {showElem ? (
               <td width="50px">
                 <button
+                  class="btn btn-primary"
                   type="button"
                   onClick={this.addItem.bind(
                     this,
@@ -469,6 +509,15 @@ class ListItems1 extends React.Component {
             Math.floor((listItems1.length + this.state.pagesSize - 1) /
             this.state.pagesSize),
         });
+
+
+        if(sessionStorage.getItem("pagesSize") != null) {
+          if(sessionStorage.getItem("pagesSize").split("/")[0]==this.props.username){
+            this.setState({
+              pagesSize: parseInt(sessionStorage.getItem("pagesSize").split("/")[1]),
+            });
+          }
+        }
 
         //按照第一页进行设定
         this.pageUpdate(1);
@@ -602,7 +651,7 @@ class ListItems1 extends React.Component {
 
         <table className="table is-bordered">
           <tbody>
-            <tr>
+            <tr class="active">
               <th width="60px">
                 <p class="text-center">编号</p>
               </th>
@@ -651,8 +700,31 @@ class ListItems1 extends React.Component {
               </ul>
             </nav>
           </div>
-          <div class="col-md-3 text-bottom">※按照5件进行分页</div>
+          <div class="col-md-2 col-md-offset-3 pageHit">※按照<input
+                    type="text"
+                    placeholder=""
+                    class="pageSizeWidth"
+                    maxlength="2" 
+                    id="pagesSize"
+                    name="pagesSize"
+                    value={this.state.pagesSize}
+                    onChange={this.handleChange}
+                    onKeyDown={this.onKeyDownchange}
+                  ></input>件进行分页
+          </div>
         </div>
+        <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="colored"
+        />
       </div>
     );
   }
