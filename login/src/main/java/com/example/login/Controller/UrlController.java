@@ -29,4 +29,9 @@ public class UrlController {
         return "updateUser";
     }
 
+    @RequestMapping("/login/deleteUser")
+    public String deleteUser() {
+        return "deleteUser";
+    }
+
 }

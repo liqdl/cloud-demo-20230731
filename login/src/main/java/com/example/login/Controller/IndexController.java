@@ -89,4 +89,23 @@ public class IndexController {
         }
     }
 
+    @PostMapping("/login/deleteUser")
+    public String deleteUser(TbUser user) {
+
+        System.out.println("---deleteUser:" + user);
+
+        TbUser checkUser = userser.getUser(user);
+        if (null != checkUser) {
+            user.setId(checkUser.getId());
+            boolean regFlg = userser.delete(user);
+            if (regFlg) {
+                return "success";
+            } else {
+                return "error";
+            }
+
+        } else {
+            return "notfound";
+        }
+    }
 }

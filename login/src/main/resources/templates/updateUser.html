@@ -204,6 +204,7 @@
                     </div>
                     <div class="model-footer">
                         <button class="model_btn" @click="know()">知道了</button>
+                        <button class="model_btn" @click="gologin()">去登录</button>
                     </div>
                 </div>
             </div>
@@ -231,6 +232,10 @@
             },
 
             cancel: function (response) {
+                window.location.href="http://localhost:1000"
+            },
+            
+            gologin: function (response) {
                 window.location.href="http://localhost:1000"
             },
 
@@ -269,7 +274,7 @@
                         this.result = "用户个人信息修改成功！"
                     } 
                     else {
-                        console.log("登录失败")
+                        console.log("修改失败")
                         this.result = "用户修改失败，请检查内容或网络！"
                     }
                     this.showModel = true;

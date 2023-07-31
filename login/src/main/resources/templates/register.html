@@ -173,6 +173,7 @@
             <div class="form-wrapper">
                 <input type="text" v-model="username" placeholder="username" class="input-item">
                 <input type="password" v-model="password" placeholder="password" class="input-item">
+                <input type="password" v-model="passwordagain" placeholder="password again" class="input-item">
                 <select class="input-item" v-model="role">
                     <option value="admin">管理员</option>
                     <option value="">一般用户</option>
@@ -204,6 +205,7 @@
                     </div>
                     <div class="model-footer">
                         <button class="model_btn" @click="know()">知道了</button>
+                        <button class="model_btn" @click="gologin()">去登录</button>
                     </div>
                 </div>
             </div>
@@ -220,6 +222,7 @@
             showModel: false,
             username: "",
             password: "",
+            passwordagain: "",
             role: "",
             result:'',
             listData: []
@@ -231,6 +234,10 @@
             },
 
             cancel: function (response) {
+                window.location.href="http://localhost:1000"
+            },
+
+            gologin: function (response) {
                 window.location.href="http://localhost:1000"
             },
 
@@ -252,6 +259,11 @@
                     this.showModel = true;
                     return;
                 } 
+                else if (this.password != this.passwordagain) {                   
+                    this.result = "密码两次输入不一致，请重新输入密码！"
+                    this.showModel = true;
+                    return;
+                } 
 
                 let form = new FormData();
                 form.append("username", this.username);
@@ -264,13 +276,13 @@
                         this.result = "该用户已经存在，请重新修改用户名！"
                     }
                     else if (res.data === "success") {                   
-                        console.log("登录成功")
+                        console.log("注册成功")
                         //window.location.href = "http://localhost:1000"
-                        this.result = "用户登录成功！"
+                        this.result = "用户注册成功！"
                     } 
                     else {
-                        console.log("登录失败")
-                        this.result = "用户登录失败，请检查内容或网络！"
+                        console.log("注册失败")
+                        this.result = "用户注册失败，请检查内容或网络！"
                     }
                     this.showModel = true;
 

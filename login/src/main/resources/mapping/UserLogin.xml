@@ -12,6 +12,10 @@
         where id = #{id}
     </update>
 
+    <update id="deleteUser">
+        delete from tb_user where username = #{username} and password = #{password} and role =#{role} and id = #{id}
+    </update>
+
     <select id="login" resultType="com.example.login.beans.TbUser">
         select * from tb_user where username = #{username} and password = #{password}
     </select>

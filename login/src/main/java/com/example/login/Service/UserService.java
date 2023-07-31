@@ -48,4 +48,12 @@ public class UserService {
         System.out.println("---更新结束" + user);
         return flag;
     }
+
+    public boolean delete(TbUser user) {
+
+        System.out.println("---删除开始" + user);
+        boolean flag = userMap.deleteUser(user.getId(), user.getUsername(), user.getPassword(), user.getRole());
+        System.out.println("---删除结束" + user);
+        return flag;
+    }
 }
